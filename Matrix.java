@@ -47,9 +47,11 @@ public class Matrix {
            }
         }
         printMatrix();
-        makeMusic(0);
-        makeMusic(1);
-
+        int measures = (int)(Math.random()*(36-5+1)+5);
+        for (int i = 0; i < measures; i++) {
+            int row = (int)(Math.random()*(12)+5);
+            makeMusic(row);
+        }
     }
 
     private static void makeMusic(int row) {
@@ -60,8 +62,15 @@ public class Matrix {
             Sequence sequence = new Sequence(Sequence.PPQ, 4);
             Track track = sequence.createTrack();
             for (int i = 0; i < 12; i++) {
-                track.add(makeEvent(144, 1, matrix[row][i] + 50, 100, i));
-                track.add(makeEvent(128, 1, i, 100, i + 2));
+                int octave = (int)(Math.random()*(3)+1);
+                if (octave == 3) {
+                    track.add(makeEvent(144, 1, matrix[row][i] + 50 + 24, 100, i));
+                } else if (octave == 2) {
+                    track.add(makeEvent(144, 1, matrix[row][i] + 50 + 12, 100, i));
+                } else {
+                    track.add(makeEvent(144, 1, matrix[row][i] + 50, 100, i));
+                }
+                track.add(makeEvent(128, 1, i, 100, i + 4));
             }
             sequencer.setSequence(sequence);
             sequencer.setTempoInBPM(60);
@@ -69,6 +78,7 @@ public class Matrix {
             while (true) {
                 if (!sequencer.isRunning()) {
                     sequencer.close();
+                    return;
                 }
             }
         }
