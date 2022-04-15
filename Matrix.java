@@ -16,8 +16,9 @@ public class Matrix {
 
     private static void generateMeasures() {
         int measures = (int)(Math.random()*(36-5+1)+5);
+        System.out.println(measures + " measures of music");
         for (int i = 0; i < measures; i++) {
-            int row = (int)(Math.random()*(12)+5);
+            int row = (int)(Math.random()*(11));
             makeMusic(row);
         }
     }
@@ -87,12 +88,25 @@ public class Matrix {
             Track track = sequence.createTrack();
             for (int i = 0; i < 12; i++) {
                 int octave = (int)(Math.random()*(3)+1);
+                int rowType = (int)(Math.random()*(2));
                 if (octave == 3) {
-                    track.add(makeEvent(144, 1, matrix[row][i] + 50 + 24, 100, i));
+                    if (rowType == 1) {
+                        track.add(makeEvent(144, 1, matrix[row][i] + 50 + 24, 100, i));
+                    } else {
+                        track.add(makeEvent(144, 1, matrix[i][row] + 50 + 24, 100, i));
+                    }
                 } else if (octave == 2) {
-                    track.add(makeEvent(144, 1, matrix[row][i] + 50 + 12, 100, i));
+                    if (rowType == 1) {
+                        track.add(makeEvent(144, 1, matrix[row][i] + 50 + 12, 100, i));
+                    } else {
+                        track.add(makeEvent(144, 1, matrix[i][row] + 50 + 12, 100, i));
+                    }
                 } else {
-                    track.add(makeEvent(144, 1, matrix[row][i] + 50, 100, i));
+                    if (rowType == 1) {
+                        track.add(makeEvent(144, 1, matrix[row][i] + 50, 100, i));
+                    } else {
+                        track.add(makeEvent(144, 1, matrix[i][row] + 50, 100, i));
+                    }
                 }
                 track.add(makeEvent(128, 1, i, 100, i + 4));
             }
@@ -147,6 +161,13 @@ public class Matrix {
     private static void printMatrix() {
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 12; j++) {
+                if (matrix[i][j] == 10) {
+                    System.out.print("t ");
+                    continue;
+                } else if (matrix[i][j] == 11) {
+                    System.out.print("e ");
+                    continue;
+                }
                 System.out.print(matrix[i][j] + " ");
             }
             System.out.println("");
