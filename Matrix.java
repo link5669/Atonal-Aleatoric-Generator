@@ -5,6 +5,59 @@ public class Matrix {
     private static int[][] matrix = new int[12][12];
 
     public static void main(String[] args) {
+        generateRow();
+        transposeRowToZero();
+        copyPZeroToMatrix();
+        copyInvertedRow();
+        fillMatrix();
+        printMatrix();
+        generateMeasures();
+    }
+
+    private static void generateMeasures() {
+        int measures = (int)(Math.random()*(36-5+1)+5);
+        for (int i = 0; i < measures; i++) {
+            int row = (int)(Math.random()*(12)+5);
+            makeMusic(row);
+        }
+    }
+
+    private static void fillMatrix() {
+        for (int i = 1; i < 12; i++) {
+            int diff = matrix[i][0];
+            for (int j = 1; j < 12; j++) {
+                matrix[i][j] = matrix[0][j];
+                matrix[i][j] += diff;
+                matrix[i][j] = mod(matrix[i][j]);
+            }
+        }
+    }
+
+    private static void transposeRowToZero() {
+        if (row[0] != 0) {
+            int diff = row[0];
+            for (int i = 0; i< 12; i++) {
+                row[i] = row[i] - diff;
+                row[i] = mod(row[i]);
+            }
+        }
+    }
+
+    private static void copyInvertedRow() {
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 12; j++) {
+                matrix[i][0] = invert(row[i]);
+            }
+        }
+    }
+
+    private static void copyPZeroToMatrix() {
+        for (int i = 0; i < 12; i++) {
+            matrix[0][i] = row[i];
+        }
+    }
+
+    private static void generateRow() {
         int min = 0;
         int max = 11;
         for (int i = 0; i < 12; i++) {
@@ -22,35 +75,6 @@ public class Matrix {
                     }
                 }
             }
-        }
-        if (row[0] != 0) {
-            int diff = row[0];
-            for (int i = 0; i< 12; i++) {
-                row[i] = row[i] - diff;
-                row[i] = mod(row[i]);
-            }
-        }
-        for (int i = 0; i < 12; i++) {
-            matrix[0][i] = row[i];
-        }
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 12; j++) {
-                matrix[i][0] = invert(row[i]);
-            }
-        }
-        for (int i = 1; i < 12; i++) {
-           int diff = matrix[i][0];
-           for (int j = 1; j < 12; j++) {
-               matrix[i][j] = matrix[0][j];
-               matrix[i][j] += diff;
-               matrix[i][j] = mod(matrix[i][j]);
-           }
-        }
-        printMatrix();
-        int measures = (int)(Math.random()*(36-5+1)+5);
-        for (int i = 0; i < measures; i++) {
-            int row = (int)(Math.random()*(12)+5);
-            makeMusic(row);
         }
     }
 
